@@ -10,7 +10,7 @@ def merge_dicts(*dict_args):
                 result[k] = d[k]
             else:
                 result[k] += d[k]
-                
+
 class Termo():
     
     def __init__(self,path_palavras=str):
@@ -110,25 +110,7 @@ class Termo():
 
 test2 = Termo('Lista-de-Palavras.txt')
 test2.filter(5)
-freq0 = test2.makeDic(0)
-freq1 = test2.makeDic(1)
-freq2 = test2.makeDic(2)
-freq3 = test2.makeDic(3)
-freq4 = test2.makeDic(4)
+print(test2.findBestLetter(1))
 
-def merge_dicts(*dict_args):
-    """
-    Given any number of dictionaries, shallow copy and merge into a new dict,
-    precedence goes to key-value pairs in latter dictionaries.
-    """
-    result = {}
-    for d in dict_args:
-        for k in d:
-            if k not in result:
-                result[k] = d[k]
-            else:
-                result[k] += d[k]
-        
-    return result
 
-print(merge_dicts(freq0,freq1,freq2,freq3,freq4))
+#print(merge_dicts(freq0,freq1,freq2,freq3,freq4))
