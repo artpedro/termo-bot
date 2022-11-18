@@ -12,6 +12,12 @@ def merge_dicts(*dict_args):
                 result[k] += d[k]
     return result
 
+def invert_dict(dict):
+    idict = {}
+    for key,value in dict.items():
+        idict[value] = key
+    return idict
+
 class Termo():
     
     def __init__(self,path_palavras=str):
@@ -48,12 +54,16 @@ class Termo():
             return dic
         else:
             dic = {}
-            for i in self.words:
-                for j in i:
-                    if j in dic:
-                        dic[j] +=1
+            for word in self.words:
+                log = ''
+                for letter in word:
+                    if letter in log:
+                        continue
+                    log += letter
+                    if letter in dic:
+                        dic[letter] +=1
                     else:
-                        dic[j] = 1
+                        dic[letter] = 1
             return dic
 
         
@@ -65,9 +75,7 @@ class Termo():
             score = self.makeDic(index)
             
             tscore = []
-            invertedScore = {}
-            for i,j in score.items():
-                invertedScore[j] = i
+            invertedScore = invert_dict(score)
 
             for i in sorted(score.values(),reverse= True):
                 if invertedScore[i] not in tscore:
@@ -131,23 +139,25 @@ class Termo():
                 self.indexScoredWords[word] += score
 
         for word in self.words:
+            log = ''
             for letter in word:
                 score = 0
+                if letter in log:
+                    continue
+                log += letter
                 if letter in self.generalScoreTable:
                     score = self.generalScoreTable[letter]
                 self.generalScoredWords[word] += score
-        #self.scoredWords = merge_dicts(self.indexScoredWords,self.generalScoredWords)
-        self.scoredWords = self.generalScoredWords
+        self.scoredWords = merge_dicts(self.indexScoredWords,self.generalScoredWords)
+        #self.scoredWords = self.generalScoredWords
         
         return self.scoredWords
     
     def findBestFirstWord(self):
         
-        iscoredWords  = {}
+        iscoredWords  = invert_dict(self.scoredWords)
         tscoredWords = []
-        for i,j in self.scoredWords.items():
-            #iscore = inverted score word
-            iscoredWords[j] = i
+        print(sorted(self.scoredWords.values(), reverse= True))
         for i in sorted(self.scoredWords.values(),reverse= True):
             if iscoredWords[i] not in tscoredWords:
                 tscoredWords.append(iscoredWords[i])
@@ -174,7 +184,7 @@ print('Pontuação das palavras')
 print(test2.assignScore())
 
 print('Melhores palavras')
-print(test2.findBestWord())
+print(test2.findBestFirstWord())
 
 
 
