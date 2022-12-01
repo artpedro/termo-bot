@@ -14,10 +14,10 @@ def merge_dicts(*dict_args):
 
 
 def invert_dict(dict):
-    idict = {}
+    indict = {}
     for key, value in dict.items():
-        idict[value] = key
-    return idict
+        indict[value] = key
+    return indict
 
 
 class Termo():
